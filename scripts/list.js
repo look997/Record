@@ -33,10 +33,11 @@ var createItem = function(e) {
 	}
 	recordItem.querySelector(".delete-item").onclick = deleteItem;
 	//audio.play();
-	document.onkeydown = playFromList;
-	document.onkeydown = stopFromList;
 
 }
+
+document.querySelector("html").addEventListener("keydown", playFromList);
+document.querySelector("html").addEventListener("keydown", stopFromList);
 
 var playFromList = function (event) {
 	if (event.keyCode == 88 && event.target.localName != "input") { // key "x"
