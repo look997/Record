@@ -87,7 +87,7 @@ var onSuccess = function(stream) {
 	record.onclick = stopRecording;
 	//recording();
 
-	document.querySelector("html").onkeydown = playStopRecord;
+	document.onkeydown = playStopRecord;
 
 };
 
