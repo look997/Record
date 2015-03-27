@@ -102,8 +102,7 @@ var onSuccess = function(stream) {
 
 		}
 	};
-	document.removeEventListener("keydown", playStopRecord);
-	document.addEventListener("keydown", playStopRecord);
+	document.onkeydown = playStopRecord;
 };
 
 
