@@ -5,9 +5,6 @@ define('record', ['app-frame', 'list', 'user-audio'], function(appFrame, list, u
 document.addEventListener("keydown", list.playFromList);
 document.addEventListener("keydown", list.stopFromList);
 
-var stopRecording = function () {
-	
-}	
 var playStopRecord = function (event) {
 		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
 			console.log(mediaRecorder.state );
@@ -19,7 +16,6 @@ var playStopRecord = function (event) {
 
 		}
 	};
-document.addEventListener("keydown", stopRecording);
 	
 var appContainer = appFrame.el;
 
@@ -28,7 +24,7 @@ var status = appFrame.record;
 
 	
 var playStopRecord = function () {};
-document.querySelector("html").addEventListener("keydown", playStopRecord);
+document.addEventListener("keydown", playStopRecord);
 
 // successCallback
 var onSuccess = function(stream) {
