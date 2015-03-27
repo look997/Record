@@ -22,8 +22,6 @@ var appContainer = appFrame.el;
 var record = appFrame.record;
 var status = appFrame.record;
 
-	
-var playStopRecord = function () {};
 document.addEventListener("keydown", playStopRecord);
 
 // successCallback
