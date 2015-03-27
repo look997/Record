@@ -11,28 +11,24 @@ var appContainer = appFrame.el;
 var record = appFrame.record;
 var status = appFrame.record;
 
-var recording = function() {
-	userAudio.get(onSuccess, onError);
-	/*mediaRecorder.ondataavailable = list.createItem;
-	mediaRecorder.start();
 
-	status.textContent = "recording";*/
-	record.onclick = stopRecording;
+var firstRecording = function () {
+	userAudio.get(onSuccess, onError);
+	document.removeEventListener("keydown", playStopRecordF);
 };
 	
 var playStopRecordF = function (event) {
 	if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
-		recording();
-
+		firstRecording();
+		
 	}
 };
-record.onclick = recording;
+record.onclick = firstRecording;
 document.addEventListener("keydown", playStopRecordF);
 
 // successCallback
 var onSuccess = function(stream) {
 	//console.log(stream);
-	document.removeEventListener("keydown", playStopRecordF);
 	
 	var	mediaRecorder = new MediaRecorder(stream);
 	
@@ -68,7 +64,14 @@ var onSuccess = function(stream) {
 	
 
 
+	var recording = function() {
+		userAudio.get(onSuccess, onError);
+		/*mediaRecorder.ondataavailable = list.createItem;
+		mediaRecorder.start();
 
+		status.textContent = "recording";*/
+		//record.onclick = stopRecording;
+	};
 	stopRecording = function () {
 		mediaRecorder.stop();
 		stream.stop();
