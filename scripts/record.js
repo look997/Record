@@ -7,12 +7,7 @@ document.addEventListener("keydown", list.stopFromList);
 
 var playStopRecord = function (event) {
 		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
-			console.log(mediaRecorder.state );
-			if ( mediaRecorder.state == "recording") {
-				stopRecording();
-			} else if (mediaRecorder.state == "inactive") {
-				recording();
-			}
+			console.log("first",mediaRecorder.state );
 
 		}
 	};
@@ -89,7 +84,18 @@ var onSuccess = function(stream) {
 	status.textContent = "Stop Recording";
 	//recording();
 	record.onclick = stopRecording;
+	
+	playStopRecord = function (event) {
+			if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
+				console.log(mediaRecorder.state );
+				if ( mediaRecorder.state == "recording") {
+					stopRecording();
+				} else if (mediaRecorder.state == "inactive") {
+					recording();
+				}
 
+			}
+		};
 };
 
 
