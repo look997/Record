@@ -5,23 +5,34 @@ define('record', ['app-frame', 'list', 'user-audio'], function(appFrame, list, u
 document.addEventListener("keydown", list.playFromList);
 document.addEventListener("keydown", list.stopFromList);
 
-var playStopRecord = function (event) {
-		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
-			console.log("first" );
-
-		}
-	};
 	
 var appContainer = appFrame.el;
 
 var record = appFrame.record;
 var status = appFrame.record;
 
+var recording = function() {
+	userAudio.get(onSuccess, onError);
+	/*mediaRecorder.ondataavailable = list.createItem;
+	mediaRecorder.start();
+
+	status.textContent = "recording";*/
+	record.onclick = stopRecording;
+};
+	
+var playStopRecord = function (event) {
+	if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
+		recording();
+
+	}
+};
+record.onclick = recording;
 document.addEventListener("keydown", playStopRecord);
 
 // successCallback
 var onSuccess = function(stream) {
 	//console.log(stream);
+	document.removeEventListener("keydown", playStopRecord);
 	
 	var	mediaRecorder = new MediaRecorder(stream);
 	
@@ -57,14 +68,6 @@ var onSuccess = function(stream) {
 	
 
 
-	var recording = function() {
-		userAudio.get(onSuccess, onError);
-		/*mediaRecorder.ondataavailable = list.createItem;
-		mediaRecorder.start();
-
-		status.textContent = "recording";*/
-		record.onclick = stopRecording;
-	};
 
 	stopRecording = function () {
 		mediaRecorder.stop();
@@ -85,17 +88,18 @@ var onSuccess = function(stream) {
 	//recording();
 	record.onclick = stopRecording;
 	
-	playStopRecord = function (event) {
-			if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
-				console.log(mediaRecorder.state );
-				if ( mediaRecorder.state == "recording") {
-					stopRecording();
-				} else if (mediaRecorder.state == "inactive") {
-					recording();
-				}
-
+	var playStopRecord = function (event) {
+		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
+			console.log(mediaRecorder.state );
+			if ( mediaRecorder.state == "recording") {
+				stopRecording();
+			} else if (mediaRecorder.state == "inactive") {
+				recording();
 			}
-		};
+
+		}
+	};
+	document.addEventListener("keydown", playStopRecord);
 };
 
 
