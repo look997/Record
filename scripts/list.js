@@ -1,7 +1,7 @@
 define('list',['app-frame'], function(appFrame) {
 
 
-
+var audioEmpty;
 var audio = audioEmpty = document.createElement("audio");
 
 var createItem = function(e) {
@@ -61,7 +61,9 @@ var stopFromList = function (event) {
 
 return {
 	
-	createItem: createItem
+	createItem: createItem,
+	playFromList: playFromList,
+	stopFromList: stopFromList
 };
 
 });
