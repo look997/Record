@@ -6,7 +6,28 @@
 	display: flex;
 	height: 61px;
 	align-items: center;
+	margin-bottom: 10px;
 }
+
+.rec {
+	width: 143px;
+	height: 61px;
+	cursor: pointer;
+	
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.draw-sound {
+	width: 16px;
+	height: 0;
+	background-color: darkcyan;
+}
+
+
+
+/* list */
 
 .player {
 	display: flex;
