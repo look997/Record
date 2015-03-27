@@ -2,6 +2,8 @@ define('list',['app-frame'], function(appFrame) {
 
 
 
+var audio = audioEmpty = document.createElement("audio");
+
 var createItem = function(e) {
 
 	var t = document.querySelector("#t-record-item");
@@ -35,6 +37,9 @@ var createItem = function(e) {
 	//audio.play();
 
 }
+
+document.addEventListener("keydown", playFromList);
+document.addEventListener("keydown", stopFromList);
 
 
 var playFromList = function (event) {console.log("test");
