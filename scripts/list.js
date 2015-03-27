@@ -33,8 +33,8 @@ var createItem = function(e) {
 	}
 	recordItem.querySelector(".delete-item").onclick = deleteItem;
 	//audio.play();
-	document.querySelector("html").onkeydown = playFromList;
-	document.querySelector("html").onkeydown = stopFromList;
+	document.onkeydown = playFromList;
+	document.onkeydown = stopFromList;
 
 }
 
