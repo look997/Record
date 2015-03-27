@@ -20,19 +20,19 @@ var recording = function() {
 	record.onclick = stopRecording;
 };
 	
-var playStopRecord = function (event) {
+var playStopRecordF = function (event) {
 	if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
 		recording();
 
 	}
 };
 record.onclick = recording;
-document.addEventListener("keydown", playStopRecord);
+document.addEventListener("keydown", playStopRecordF);
 
 // successCallback
 var onSuccess = function(stream) {
 	//console.log(stream);
-	document.removeEventListener("keydown", playStopRecord);
+	document.removeEventListener("keydown", playStopRecordF);
 	
 	var	mediaRecorder = new MediaRecorder(stream);
 	
