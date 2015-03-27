@@ -36,8 +36,8 @@ var createItem = function(e) {
 
 }
 
-document.querySelector("html").addEventListener("keydown", playFromList);
-document.querySelector("html").addEventListener("keydown", stopFromList);
+document.addEventListener("keydown", playFromList);
+document.addEventListener("keydown", stopFromList);
 
 var playFromList = function (event) {
 	if (event.keyCode == 88 && event.target.localName != "input") { // key "x"
