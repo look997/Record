@@ -4,9 +4,9 @@ define('record', ['app-frame', 'list', 'user-audio'], function(appFrame, list, u
 	
 document.addEventListener("keydown", function (event) {console.log("test");
 	if (event.keyCode == 88 && event.target.localName != "input") { // key "x"
-console.log("test2");
+		console.log("test2");
 	}
-};
+});
 document.addEventListener("keydown", list.stopFromList);
 
 var appContainer = appFrame.el;
