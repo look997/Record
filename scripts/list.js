@@ -38,8 +38,6 @@ var createItem = function(e) {
 
 }
 
-document.addEventListener("keydown", playFromList);
-document.addEventListener("keydown", stopFromList);
 
 
 var playFromList = function (event) {console.log("test");
