@@ -1,0 +1,57 @@
+<!doctype html> 
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Audio rec - Cvanus</title>
+
+
+
+	<link href="styles/general.css" rel="stylesheet"/>
+	<link href="styles/audio-rec-cvanus.css" rel="stylesheet"/>
+	
+
+
+	<link rel="shortcut icon" href="favicon.ico"/>
+
+	<meta name="Description" content="Tasks Notepad"/>
+	<meta name="Keywords" content="Tasks Notepad"/>
+
+</head>
+<body>
+<div class="body-container">
+	<div class="audio-rec-cvanus app-container">
+		<div class="interface">
+			<div class="record">
+				<button class="rec">Record</button>
+				<span class="status"></span>
+				<canvas height="100" width="100" style="width: 100px; height: 100px;" class=" " id="defaultCanvas"></canvas>
+				<input type="text" placeholder="Enter a description" class="description-to-recorded input-max">
+			</div>
+			<div class="list"></div>
+		</div>
+		
+	</div>
+	
+</div>
+
+
+
+<span class="templates">
+<template id="t-record-item">
+	<div class="record-item">
+		<div class="player">
+			<audio src="" class="pan-audio"></audio>
+			<span class="info"></span>
+			<button class="delete-item" title="Delete recording">X</button>
+			<input type="text" placeholder="Enter a description" class="description input-max">
+		</div>
+	</div>
+</template>
+</span>
+
+<span class="scripts">
+
+	<script data-main="scripts/main" src="scripts/libs/require.js"></script>
+</span>
+</body>
+</html>
