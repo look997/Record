@@ -76,7 +76,7 @@ var onSuccess = function(stream) {
 		record.onclick = stopRecording;
 	};
 
-	var stopRecording = function() {
+	stopRecording = function() {
 		mediaRecorder.stop();
 		stream.stop();
 		
