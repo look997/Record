@@ -1,10 +1,11 @@
-require(['user-audio', 'record'], function (userAudio, record) {
+require(['app-frame', 'user-audio', 'record'], function (appFrame, userAudio, record) {
 	
 	
 	
-	var playStopRecord = function () {
+	var playRecord = function () {
 		userAudio.get(record.onSuccess, record.onError);
 	};
 	
-	document.onkeydown = playStopRecord;
+	appFrame.record.onclick = playRecord;
+	
 });
