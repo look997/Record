@@ -7,5 +7,6 @@ require(['app-frame', 'user-audio', 'record'], function (appFrame, userAudio, re
 	};
 	
 	appFrame.record.onclick = playRecord;
+	document.onkeydown = playRecord;
 	
 });
