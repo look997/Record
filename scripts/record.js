@@ -5,29 +5,54 @@ define('record', ['app-frame', 'list', 'user-audio'], function(appFrame, list, u
 var appContainer = appFrame.el;
 
 var record = appFrame.record;
-var status = appFrame.status;
+var status = appFrame.record;
 
 var audio = audioEmpty = document.createElement("audio");
+	
+var playStopRecord;
 
 // successCallback
 var onSuccess = function(stream) {
-	console.log(stream);
+	//console.log(stream);
 	
 	var	mediaRecorder = new MediaRecorder(stream);
-	var audioContext = new webkitAudioContext();
+	
+	var audioContext = new AudioContext();
 	var analyser = audioContext.createAnalyser();
 	var microphone = audioContext.createMediaStreamSource(stream);
-	var javascriptNode = audioContext.createScriptProcessor(2048, 1, 1);
+	var scriptProcessor = audioContext.createScriptProcessor(2048, 1, 1);
 	
 	analyser.smoothingTimeConstant = 0.3;
 	analyser.fftSize = 1024;
 	
-	var playStopRecord = function (event) {
+	microphone.connect(analyser);
+	analyser.connect(scriptProcessor);
+	scriptProcessor.connect(audioContext.destination);
+	
+	var canvasContext = appFrame.el.querySelector('.draw-sound');
+	
+	scriptProcessor.onaudioprocess = () => {
+		var array =  new Uint8Array(analyser.frequencyBinCount);
+		analyser.getByteFrequencyData(array);
+		var values = 0;
+		
+		//console.log(canvasContext);
+		
+		var length = array.length;
+		for (var i = 0; i < length; i++) {
+			values += array[i];
+		}
+		
+		var average = values / length;
+		canvasContext.style.height = average+"px";
+	}
+	
+	playStopRecord = function (event) {
 		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
-
+			console.log(mediaRecorder.state );
 			if ( mediaRecorder.state == "recording") {
 				stopRecording();
-			} else {
+			} else if (mediaRecorder.state == "inactive") {
 				recording();
 			}
 
@@ -39,15 +64,18 @@ var onSuccess = function(stream) {
 		/*mediaRecorder.ondataavailable = list.createItem;
 		mediaRecorder.start();
 
-		status.textContent = "recording";
-		record.onclick = stopRecording;*/
+		status.textContent = "recording";*/
+		record.onclick = stopRecording;
 	};
 
 	var stopRecording = function() {
 		mediaRecorder.stop();
 		stream.stop();
-
-		status.textContent = "stop";
+		
+		scriptProcessor.onaudioprocess = null;
+		appFrame.el.querySelector(".draw-sound").removeAttribute("style");
+		
+		status.textContent = "Start Recording";
 		record.onclick = recording;
 	};
 	//record.onclick = recording;
@@ -55,11 +83,11 @@ var onSuccess = function(stream) {
 	mediaRecorder.ondataavailable = list.createItem;
 	mediaRecorder.start();
 
-	status.textContent = "recording";
+	status.textContent = "Stop Recording";
 	record.onclick = stopRecording;
 	//recording();
 
-	document.addEventListener("keydown", playStopRecord);
+	document.querySelector("html").onkeydown = playStopRecord;
 
 };
 
