@@ -36,10 +36,8 @@ var createItem = function(e) {
 
 }
 
-document.addEventListener("keydown", playFromList);
-document.addEventListener("keydown", stopFromList);
 
-var playFromList = function (event) {
+var playFromList = function (event) {console.log("test");
 	if (event.keyCode == 88 && event.target.localName != "input") { // key "x"
 
 		if ( audio.paused == true ) {

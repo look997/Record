@@ -1,6 +1,9 @@
 
 define('record', ['app-frame', 'list', 'user-audio'], function(appFrame, list, userAudio) {
 
+	
+document.addEventListener("keydown", list.playFromList);
+document.addEventListener("keydown", list.stopFromList);
 
 var appContainer = appFrame.el;
 
