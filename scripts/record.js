@@ -7,7 +7,7 @@ document.addEventListener("keydown", list.stopFromList);
 
 var playStopRecord = function (event) {
 		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
-			console.log("first",mediaRecorder.state );
+			console.log("first" );
 
 		}
 	};
