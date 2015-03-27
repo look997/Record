@@ -40,7 +40,7 @@ var createItem = function(e) {
 
 
 
-var playFromList = function (event) {console.log("test");
+var playFromList = function (event) {
 	if (event.keyCode == 88 && event.target.localName != "input") { // key "x"
 
 		if ( audio.paused == true ) {

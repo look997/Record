@@ -7,7 +7,18 @@ document.addEventListener("keydown", list.stopFromList);
 
 var stopRecording = function () {
 	
-}
+}	
+var playStopRecord = function (event) {
+		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
+			console.log(mediaRecorder.state );
+			if ( mediaRecorder.state == "recording") {
+				stopRecording();
+			} else if (mediaRecorder.state == "inactive") {
+				recording();
+			}
+
+		}
+	};
 document.addEventListener("keydown", stopRecording);
 	
 var appContainer = appFrame.el;
@@ -55,17 +66,7 @@ var onSuccess = function(stream) {
 		canvasContext.style.height = average+"px";
 	}
 	
-	playStopRecord = function (event) {
-		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
-			console.log(mediaRecorder.state );
-			if ( mediaRecorder.state == "recording") {
-				stopRecording();
-			} else if (mediaRecorder.state == "inactive") {
-				recording();
-			}
 
-		}
-	};
 
 	var recording = function() {
 		userAudio.get(onSuccess, onError);
@@ -76,7 +77,7 @@ var onSuccess = function(stream) {
 		record.onclick = stopRecording;
 	};
 
-	stopRecording = function() {
+	stopRecording = function () {
 		mediaRecorder.stop();
 		stream.stop();
 		
@@ -93,7 +94,7 @@ var onSuccess = function(stream) {
 
 	status.textContent = "Stop Recording";
 	//recording();
-
+	record.onclick = stopRecording;
 
 };
 
