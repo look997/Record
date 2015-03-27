@@ -1,10 +1,15 @@
 
 define('record', ['app-frame', 'list', 'user-audio'], function(appFrame, list, userAudio) {
 
-	
+
 document.addEventListener("keydown", list.playFromList);
 document.addEventListener("keydown", list.stopFromList);
 
+var stopRecording = function () {
+	
+}
+document.addEventListener("keydown", stopRecording);
+	
 var appContainer = appFrame.el;
 
 var record = appFrame.record;
@@ -87,7 +92,6 @@ var onSuccess = function(stream) {
 	mediaRecorder.start();
 
 	status.textContent = "Stop Recording";
-	record.onclick = stopRecording;
 	//recording();
 
 
