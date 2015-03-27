@@ -9,7 +9,8 @@ var status = appFrame.record;
 
 var audio = audioEmpty = document.createElement("audio");
 	
-var playStopRecord;
+var playStopRecord = function () {};
+document.querySelector("html").addEventListener("keydown", playStopRecord);
 
 // successCallback
 var onSuccess = function(stream) {
@@ -66,7 +67,6 @@ var onSuccess = function(stream) {
 
 		status.textContent = "recording";*/
 		record.onclick = stopRecording;
-		document.onkeydown = stopRecording;
 	};
 
 	var stopRecording = function() {
@@ -78,7 +78,6 @@ var onSuccess = function(stream) {
 		
 		status.textContent = "Start Recording";
 		record.onclick = recording;
-		document.onkeydown = recording;
 	};
 	//record.onclick = recording;
 	
@@ -89,7 +88,6 @@ var onSuccess = function(stream) {
 	record.onclick = stopRecording;
 	//recording();
 
-	document.onkeydown = stopRecording;
 
 };
 
