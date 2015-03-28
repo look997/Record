@@ -1,30 +1,27 @@
 
 define('record', ['app-frame', 'list', 'user-audio'], function(appFrame, list, userAudio) {
 
+var recordButton = appFrame.recordButton;
 
-document.addEventListener("keydown", list.playFromList);
-document.addEventListener("keydown", list.stopFromList);
+var init = function () {
+	list.init();
 
+
+
+	var firstRecording = function () {
+		userAudio.get(onSuccess, onError);
+		document.removeEventListener("keydown", playStopRecordF);
+	};
+
+	var playStopRecordF = function (event) {
+		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
+			firstRecording();
+		}
+	};
+	recordButton.onclick = firstRecording;
+	document.addEventListener("keydown", playStopRecordF);
 	
-var appContainer = appFrame.el;
-
-var record = appFrame.record;
-var status = appFrame.record;
-
-
-var firstRecording = function () {
-	userAudio.get(onSuccess, onError);
-	document.removeEventListener("keydown", playStopRecordF);
-};
-	
-var playStopRecordF = function (event) {
-	if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
-		firstRecording();
-		
-	}
-};
-record.onclick = firstRecording;
-document.addEventListener("keydown", playStopRecordF);
+}
 
 // successCallback
 var onSuccess = function(stream) {
@@ -46,7 +43,7 @@ var onSuccess = function(stream) {
 	
 	var canvasContext = appFrame.el.querySelector('.draw-sound');
 	
-	scriptProcessor.onaudioprocess = () => {
+	scriptProcessor.onaudioprocess = function () {
 		var array =  new Uint8Array(analyser.frequencyBinCount);
 		analyser.getByteFrequencyData(array);
 		var values = 0;
@@ -69,8 +66,8 @@ var onSuccess = function(stream) {
 		/*mediaRecorder.ondataavailable = list.createItem;
 		mediaRecorder.start();
 
-		status.textContent = "recording";*/
-		//record.onclick = stopRecording;
+		recordButton.textContent = "recording";*/
+		//recordButton.onclick = stopRecording;
 	};
 	stopRecording = function () {
 		mediaRecorder.stop();
@@ -79,17 +76,17 @@ var onSuccess = function(stream) {
 		scriptProcessor.onaudioprocess = null;
 		appFrame.el.querySelector(".draw-sound").removeAttribute("style");
 		
-		status.textContent = "Start Recording";
-		record.onclick = recording;
+		recordButton.textContent = "Start Recording";
+		recordButton.onclick = recording;
 	};
-	//record.onclick = recording;
+	//recordButton.onclick = recording;
 	
 	mediaRecorder.ondataavailable = list.createItem;
 	mediaRecorder.start();
 
-	status.textContent = "Stop Recording";
+	recordButton.textContent = "Stop Recording";
 	//recording();
-	record.onclick = stopRecording;
+	recordButton.onclick = stopRecording;
 	
 	var playStopRecord = function (event) {
 		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
@@ -114,6 +111,7 @@ var onError = function(err) {
 	
 
 return {
+	init: init,
 	onSuccess: onSuccess,
 	onError: onError
 };

@@ -4,6 +4,11 @@ define('list',['app-frame'], function(appFrame) {
 var audioEmpty;
 var audio = audioEmpty = document.createElement("audio");
 
+var init = function () {
+	document.addEventListener("keydown", playFromList);
+	document.addEventListener("keydown", stopFromList);
+}
+
 var createItem = function(e) {
 
 	var t = document.querySelector("#t-record-item");
@@ -16,13 +21,13 @@ var createItem = function(e) {
 	audio.setAttribute('controls', '');
 	var audioURL = window.URL.createObjectURL(e.data);
 	audio.src = audioURL;
-	//audio.src = window.URL.createObjectURL(localMediaStream);
-	var recDescription = appFrame.el.querySelector(".description-to-recorded").value;
+	
+	var recDescription = appFrame.recDescriptionEl.value;
 	
 	recordItem.querySelector(".description").value = recDescription;
 
-	var list = appFrame.el.querySelector(".list");
-	list.insertBefore(recordItem, list.firstElementChild);//appendChild(recordItem);
+	var list = appFrame.listEl;
+	list.insertBefore(recordItem, list.firstElementChild);;
 
 	function deleteItem (event) {
 		event.target.parentElement.parentElement.parentElement.removeChild(event.target.parentElement.parentElement);
@@ -34,8 +39,10 @@ var createItem = function(e) {
 
 	}
 	recordItem.querySelector(".delete-item").onclick = deleteItem;
-	//audio.play();
-
+	
+	if (appFrame.autoPlayCheckboxEl.checked == true) {
+		audio.play();
+	}
 }
 
 
@@ -60,10 +67,8 @@ var stopFromList = function (event) {
 
 
 return {
-	
-	createItem: createItem,
-	playFromList: playFromList,
-	stopFromList: stopFromList
+	init: init,
+	createItem: createItem
 };
 
 });

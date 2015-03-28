@@ -16,18 +16,20 @@
 	<meta name="Description" content="Record audio"/>
 	<meta name="Keywords" content="Record audio"/>
 	
-	<meta http-equiv="Expires" content="0" />
-	<meta http-equiv="Cache-Control" content="no-store, no-cache, must-revalidate" />
-	<meta http-equiv="Cache-Control" content="post-check=0, pre-check=0" />
+	
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
 	<meta http-equiv="Pragma" content="no-cache" />
+	<meta http-equiv="Expires" content="0" />
 </head>
 <body>
 <div class="body-container">
 	<div class="audio-rec-cvanus app-container">
 		<div class="interface">
 			<div class="record">
-				<div class="rec" title='Press "z" key - Start/Stop Recording' >Start Recording</div>
+				<div class="rec" title='Press "z" key - Start/Stop Recording&#013;Press "x" key - Start/Pause plaing last recording&#013;Press "c" key - Stop plaing last recording' >Start Recording</div>
 				<span class="draw-sound" title="Show recording sounds level"></span>
+				<input type="checkbox" class="autoplay-checkbox" title="Auto plaing recording after stop recording">
+				<input type="checkbox" style="display: none;" disabled="disabled" class="autopaste-checkbox" title="Auto paste text from clipboard when start recording">
 				<input type="text" title="Enter a description to recording" placeholder="Enter a description" class="description-to-recorded input-max">
 			</div>
 			<div class="list"></div>

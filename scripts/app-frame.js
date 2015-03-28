@@ -3,13 +3,12 @@ define('app-frame', function() {
 
 var el = document.querySelector('.app-container');
 
-var record = el.querySelector('.rec');
-var status = el.querySelector('.status');
-
 return {
 	el: el,
-	record: record,
-	status: status
+	recordButton: el.querySelector('.rec'),
+	autoPlayCheckboxEl: el.querySelector('.autoplay-checkbox'),
+	recDescriptionEl: el.querySelector(".description-to-recorded"),
+	listEl: el.querySelector(".list")
 };
 
 });
