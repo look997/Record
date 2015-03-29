@@ -47,10 +47,6 @@ var createItem = function(e) {
 	}
 	recordItem.querySelector(".delete-item").onclick = deleteItem;
 	
-	if (appFrame.autoPlayCheckboxEl.checked == true) {
-		//audio.play();
-		waveAudio.audio.play();
-	}
 	
 	wavesurfer.init({
 		container: recordItem.querySelector(".wave-audio"),
@@ -60,6 +56,11 @@ var createItem = function(e) {
 	});
 	wavesurfer.on('ready', function () {
 	//	wavesurfer.play();
+		
+		if (appFrame.autoPlayCheckboxEl.checked == true) {
+			//audio.play();
+			waveAudio.audio.play();
+		}
 	});
 	
 	wavesurfer.loadBlob(e.data);
