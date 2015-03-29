@@ -4,6 +4,7 @@ define('list',['app-frame'], function(appFrame) {
 var audioEmpty;
 var audio = audioEmpty = document.createElement("audio");
 var waveAudio = waveAudioEmpty = document.createElement("audio");
+	
 
 var init = function () {
 	document.addEventListener("keydown", playFromList);
@@ -12,6 +13,8 @@ var init = function () {
 
 var createItem = function(e) {
 	//console.log("du",e);
+	
+	
 	var wavesurfer = Object.create(WaveSurfer);
 	
 	
@@ -65,7 +68,13 @@ var createItem = function(e) {
 	
 	wavesurfer.loadBlob(e.data);
 	
-	recordItem.querySelector(".control-audio").onclick = function () {waveAudio.audio.playPause();};
+	recordItem.querySelector(".control-audio").onclick = function () {recordItem.querySelector(".wave-audio").audio.playPause();};
+	
+	var chunks = [];
+	chunks.push(e.data);
+	var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
+	console.log(blob);
+	recordItem.querySelector(".download-link-item").href = window.URL.createObjectURL(blob);
 }
 
 
