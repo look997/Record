@@ -90,7 +90,7 @@ var onSuccess = function(stream) {
 	
 	var playStopRecord = function (event) {
 		if (event.keyCode == 90 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "z"
-			console.log(mediaRecorder.state );
+			//console.log(mediaRecorder.state );
 			if ( mediaRecorder.state == "recording") {
 				stopRecording();
 			} else if (mediaRecorder.state == "inactive") {

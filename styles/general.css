@@ -14,3 +14,9 @@ html {
 .body-container {
 	height: 100%;
 }
+
+/* app */
+
+.interface {
+	padding: 15px;
+}
