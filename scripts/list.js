@@ -48,7 +48,7 @@ var createItem = function(e) {
 
 
 var playFromList = function (event) {
-	if (event.keyCode == 88 && event.target.localName != "input") { // key "x"
+	if (event.keyCode == 88 && !(event.target.localName == "input" && event.target.type == "text") )  { // key "x"
 
 		if ( audio.paused == true ) {
 			audio.play();
@@ -59,9 +59,12 @@ var playFromList = function (event) {
 	}
 };
 var stopFromList = function (event) {
-	if (event.keyCode == 67 && event.target.localName != "input") { // key "c"
+	if (event.keyCode == 67 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "c"
 		audio.pause();
-		audio.currentTime = 0.0;
+		if (audio.currentTime) {
+			audio.currentTime = 0.0;
+		}
+		
 	}
 }
 
