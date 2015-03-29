@@ -14,7 +14,7 @@ var init = function () {
 	};
 
 	var playStopRecordF = function (event) {
-		if (event.keyCode == 90 && event.target.localName != "input") { // key "z"
+		if (event.keyCode == 90 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "z"
 			firstRecording();
 		}
 	};
@@ -89,7 +89,7 @@ var onSuccess = function(stream) {
 	recordButton.onclick = stopRecording;
 	
 	var playStopRecord = function (event) {
-		if (event.keyCode == 90 &&  !(event.target.localName == "input" && event.target.type == "text") ) { // key "z"
+		if (event.keyCode == 90 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "z"
 			console.log(mediaRecorder.state );
 			if ( mediaRecorder.state == "recording") {
 				stopRecording();
