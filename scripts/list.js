@@ -55,7 +55,7 @@ var createItem = function(e) {
 		container: recordItem.querySelector(".wave-audio"),
 		waveColor: '#00BABA',
 		progressColor: '#008B8B',
-		height: '44'
+		height: '88'
 	});
 	wavesurfer.on('ready', function () {
 	//	wavesurfer.play();
