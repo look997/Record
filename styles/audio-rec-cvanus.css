@@ -72,3 +72,11 @@
 	align-items: center;
 	cursor: pointer;
 }
+
+.record-item {
+	border-left: 4px solid transparent;
+}
+
+.record-item[data-selected-recirding="true"] {
+	border-left-color: green;
+}

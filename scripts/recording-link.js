@@ -19,6 +19,8 @@ define('recording-link', ['app-frame'], function(appFrame) {
 		var trecordItem = document.importNode(t.content, true);
 
 		var recordItem = trecordItem.querySelector(".record-item");
+		
+		selFun(recordItem);
 
 		audio = recordItem.querySelector(".pan-audio");
 		waveAudio = recordItem.querySelector(".wave-audio");
@@ -61,7 +63,17 @@ define('recording-link', ['app-frame'], function(appFrame) {
 
 		};
 		
-		recordItem.querySelector(".download-item").style.display = "none";
+		recordItem.querySelector(".download-link-ite").href = value;
+		recordItem.querySelector(".download-link-ite").download = "";
+		//recordItem.querySelector(".download-item").style.display = "none";
+		
+		recordItem.addEventListener("mousedown", function (event) { //switchAtThis
+			//event.target.
+			console.log(this);
+			waveAudio = this.querySelector(".wave-audio");
+			
+			selFun(this);
+		});
 	}
 	
 	
@@ -87,6 +99,16 @@ define('recording-link', ['app-frame'], function(appFrame) {
 			waveAudio.audio.stop();
 		}
 	}
+	
+	var selFun = function (recordItem) {
+		var il = appFrame.el.querySelectorAll(".record-item");
+		var ilLenght = il.length;
+		for (var i = 0; i<ilLenght; i++) {
+			il[i].setAttribute("data-selected-recirding", false);
+		}
+		recordItem.setAttribute("data-selected-recirding", true);
+		//recordItem.setAttribute(style.borderLeftColor = "green";
+	};
 	
 	return {
 		init: init
