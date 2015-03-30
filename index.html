@@ -30,8 +30,17 @@
 				<div class="rec" title='Press "z" key - Start/Stop Recording&#013;Press "x" key - Start/Pause plaing last recording&#013;Press "c" key - Stop plaing last recording' >Start Recording</div>
 				<span class="draw-sound" title="Show recording sounds level"></span>
 				<input type="checkbox" class="autoplay-checkbox" title="Auto plaing recording after stop recording">
-				<input type="text" style="display: none;" class="link-load" title="Load audio file">
-				<a class="load-file" style="display: none;" >L</a>
+				<input type="text" class="link-load" title="Load audio file">
+				<a class="load-file" >L</a>
+				<audio id="audiox" controls autoplay src="http://www.talkenglish.com/AudioTE/E31/sentence/E031S4.mp3"></audio>
+				<script type="text/javascript">
+					var context = new AudioContext;
+					var el = document.getElementById('audiox');
+					var source = context.createMediaElementSource(el);
+					source.connect(context.destination);
+					el.play();
+					console.log("obj",el);
+				</script>
 				<input type="text" title="Enter a description to recording" placeholder="Enter a description" class="description-to-recorded input-max">
 			</div>
 			<div class="list"></div>
