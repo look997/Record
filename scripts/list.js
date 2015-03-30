@@ -64,11 +64,19 @@ var createItem = function(e) {
 			//audio.play();
 			waveAudio.audio.play();
 		}
+		wavesurfer.on('finish', function () {
+			wavesurfer.stop();
+		});
 	});
 	
 	wavesurfer.loadBlob(e.data);
 	
-	recordItem.querySelector(".control-audio").onclick = function () {recordItem.querySelector(".wave-audio").audio.playPause();};
+	recordItem.querySelector(".control-audio").onclick = function () {
+		var waveOn = recordItem.querySelector(".wave-audio").audio;
+		waveOn.playPause();
+		recordItem.querySelector(".wave-audio").audio = waveOn;
+		
+	};
 	
 	var chunks = [];
 	chunks.push(e.data);
