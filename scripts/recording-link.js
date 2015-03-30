@@ -1,9 +1,10 @@
-define('recording-link', ['app-frame'], function(appFrame) {
+define('recording-link', ['app-frame', 'list'], function(appFrame, list) {
 	
 	
 	var audioEmpty;
 	var audio = audioEmpty = document.createElement("audio");
 	var waveAudio = waveAudioEmpty = document.createElement("audio");
+	
 
 	var init = function () {
 
@@ -24,14 +25,17 @@ define('recording-link', ['app-frame'], function(appFrame) {
 
 		audio = recordItem.querySelector(".pan-audio");
 		waveAudio = recordItem.querySelector(".wave-audio");
+		
 		waveAudio.audio = wavesurfer;
-	var list = appFrame.listEl;
-		list.insertBefore(recordItem, list.firstElementChild);;
+		list.waveAudioEl = waveAudio;
+		console.log(list);
+		var listEl = appFrame.listEl;
+		listEl.insertBefore(recordItem, listEl.firstElementChild);;
 
 		function deleteItem (event) {
 			event.target.parentElement.parentElement.parentElement.removeChild(event.target.parentElement.parentElement);
-			if (list.firstElementChild) {
-				audio = list.firstElementChild.querySelector(".pan-audio");
+			if (listEl.firstElementChild) {
+				audio = listEl.firstElementChild.querySelector(".pan-audio");
 			} else {
 				audio = audioEmpty;
 			}
@@ -63,8 +67,8 @@ define('recording-link', ['app-frame'], function(appFrame) {
 
 		};
 		
-		recordItem.querySelector(".download-link-ite").href = value;
-		recordItem.querySelector(".download-link-ite").download = "";
+		recordItem.querySelector(".download-link-item").href = value;
+		recordItem.querySelector(".download-link-item").download = "";
 		//recordItem.querySelector(".download-item").style.display = "none";
 		
 		recordItem.addEventListener("mousedown", function (event) { //switchAtThis
@@ -74,31 +78,7 @@ define('recording-link', ['app-frame'], function(appFrame) {
 			
 			selFun(this);
 		});
-	}
-	
-	
-	var playFromList = function (event) {
-		if (event.keyCode == 88 && !(event.target.localName == "input" && event.target.type == "text") )  { // key "x"
-
-			/*if ( audio.paused == true ) {
-				audio.play();
-			} else {
-				audio.pause();
-			}*/
-			waveAudio.audio.playPause();
-
-		}
 	};
-	var stopFromList = function (event) {
-		if (event.keyCode == 67 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "c"
-			/*audio.pause();
-			if (audio.currentTime) {
-				audio.currentTime = 0.0;
-			}
-			*/
-			waveAudio.audio.stop();
-		}
-	}
 	
 	var selFun = function (recordItem) {
 		var il = appFrame.el.querySelectorAll(".record-item");

@@ -1,6 +1,6 @@
 define('list',['app-frame'], function(appFrame) {
-
-
+	
+	
 	var audioEmpty;
 	var audio = audioEmpty = document.createElement("audio");
 	var waveAudio = waveAudioEmpty = document.createElement("audio");
@@ -9,12 +9,10 @@ define('list',['app-frame'], function(appFrame) {
 	var init = function () {
 		document.addEventListener("keydown", playFromList);
 		document.addEventListener("keydown", stopFromList);
-	}
-
-	var createItem = function(e) {
-		//console.log("du",e);
-
-
+		
+		appFrame.loadFileEl.onclick = loadFile;
+	};
+	var createRazem = function() {
 		var wavesurfer = Object.create(WaveSurfer);
 
 
@@ -38,27 +36,37 @@ define('list',['app-frame'], function(appFrame) {
 
 		recordItem.querySelector(".description").value = recDescription;
 
-		var list = appFrame.listEl;
-		list.insertBefore(recordItem, list.firstElementChild);;
+		var listEl = appFrame.listEl;
+		listEl.insertBefore(recordItem, listEl.firstElementChild);;
 
 		function deleteItem (event) {
 			event.target.parentElement.parentElement.parentElement.removeChild(event.target.parentElement.parentElement);
-			if (list.firstElementChild) {
-				audio = list.firstElementChild.querySelector(".pan-audio");
+			if (listEl.firstElementChild) {
+				audio = listEl.firstElementChild.querySelector(".pan-audio");
 			} else {
 				audio = audioEmpty;
 			}
 
 		}
 		recordItem.querySelector(".delete-item").onclick = deleteItem;
+		
+		
 
+		recordItem.querySelector(".control-audio").onclick = function () {
+			var waveOn = recordItem.querySelector(".wave-audio").audio;
+			waveOn.playPause();
 
-		wavesurfer.init({
-			container: recordItem.querySelector(".wave-audio"),
-			waveColor: '#00BABA',
-			progressColor: '#008B8B',
-			height: '88'
+		};
+		
+		recordItem.addEventListener("mousedown", function (event) { //switchAtThis
+			//event.target.
+			//console.log(this);
+			waveAudio = this.querySelector(".wave-audio");
+			
+			selFun(this);
 		});
+		
+		
 		wavesurfer.on('ready', function () {
 		//	wavesurfer.play();
 
@@ -70,29 +78,29 @@ define('list',['app-frame'], function(appFrame) {
 				wavesurfer.stop();
 			});
 		});
+		
+		return {wavesurfer: wavesurfer, recordItem: recordItem};
+	};
+	
+	
+	var createItem = function(e) {
+		//console.log("du",e);
+		var ra = createRazem();
+		
+		ra.wavesurfer.init({
+			container: ra.recordItem.querySelector(".wave-audio"),
+			waveColor: '#00BABA',
+			progressColor: '#008B8B',
+			height: '88'
+		});
 
-		wavesurfer.loadBlob(e.data);
-
-		recordItem.querySelector(".control-audio").onclick = function () {
-			var waveOn = recordItem.querySelector(".wave-audio").audio;
-			waveOn.playPause();
-			recordItem.querySelector(".wave-audio").audio = waveOn;
-
-		};
+		ra.wavesurfer.loadBlob(e.data);
 
 		var chunks = [];
 		chunks.push(e.data);
 		var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
 		//console.log(blob);
-		recordItem.querySelector(".download-link-item").href = window.URL.createObjectURL(blob);
-		
-		recordItem.addEventListener("mousedown", function (event) { //switchAtThis
-			//event.target.
-			console.log(this);
-			waveAudio = this.querySelector(".wave-audio");
-			
-			selFun(this);
-		});
+		ra.recordItem.querySelector(".download-link-item").href = window.URL.createObjectURL(blob);
 	};
 
 
@@ -129,6 +137,29 @@ define('list',['app-frame'], function(appFrame) {
 		}
 		recordItem.setAttribute("data-selected-recirding", true);
 		//recordItem.setAttribute(style.borderLeftColor = "green";
+	};
+	
+	
+	var loadFile = function () {
+		
+		var ra = createRazem();
+		
+		var value = appFrame.linkLoadEl.value;
+
+		ra.wavesurfer.init({
+			container: ra.recordItem.querySelector(".wave-audio"),
+			waveColor: 'violet',
+			progressColor: 'purple',
+			height: '88'
+		});
+
+		ra.wavesurfer.load(value);
+		
+		
+		
+		ra.recordItem.querySelector(".download-link-item").href = value;
+		ra.recordItem.querySelector(".download-link-item").download = "";
+		//ra.recordItem.querySelector(".download-item").style.display = "none";
 	};
 
 
