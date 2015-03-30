@@ -44,7 +44,11 @@ define('recording-link', ['app-frame'], function(appFrame) {
 			height: '88'
 		});
 		wavesurfer.on('ready', function () {
-
+		//	wavesurfer.play();
+			
+			wavesurfer.on('finish', function () {
+				wavesurfer.stop();
+			});
 		});
 
 		wavesurfer.load(value);
