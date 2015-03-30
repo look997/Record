@@ -1,23 +1,19 @@
-define('list',['app-frame'], function(appFrame) {
-
-
+define('recording-link', ['app-frame'], function(appFrame) {
+	
+	
 	var audioEmpty;
 	var audio = audioEmpty = document.createElement("audio");
 	var waveAudio = waveAudioEmpty = document.createElement("audio");
 
-
 	var init = function () {
-		document.addEventListener("keydown", playFromList);
-		document.addEventListener("keydown", stopFromList);
+
+		appFrame.loadFileEl.onclick = loadFile;
 	}
 
-	var createItem = function(e) {
-		//console.log("du",e);
-
+	var loadFile = function () {
+		var value = appFrame.linkLoadEl.value;
 
 		var wavesurfer = Object.create(WaveSurfer);
-
-
 
 		var t = document.querySelector("#t-record-item");
 		var trecordItem = document.importNode(t.content, true);
@@ -27,16 +23,7 @@ define('list',['app-frame'], function(appFrame) {
 		audio = recordItem.querySelector(".pan-audio");
 		waveAudio = recordItem.querySelector(".wave-audio");
 		waveAudio.audio = wavesurfer;
-
-		/*audio.setAttribute('controls', '');
-		var audioURL = window.URL.createObjectURL(e.data);
-		audio.src = audioURL;*/
-
-		var recDescription = appFrame.recDescriptionEl.value;
-
-		recordItem.querySelector(".description").value = recDescription;
-
-		var list = appFrame.listEl;
+	var list = appFrame.listEl;
 		list.insertBefore(recordItem, list.firstElementChild);;
 
 		function deleteItem (event) {
@@ -49,44 +36,31 @@ define('list',['app-frame'], function(appFrame) {
 
 		}
 		recordItem.querySelector(".delete-item").onclick = deleteItem;
-
-
+		
 		wavesurfer.init({
 			container: recordItem.querySelector(".wave-audio"),
-			waveColor: '#00BABA',
-			progressColor: '#008B8B',
+			waveColor: 'violet',
+			progressColor: 'purple',
 			height: '88'
 		});
 		wavesurfer.on('ready', function () {
-		//	wavesurfer.play();
 
-			if (appFrame.autoPlayCheckboxEl.checked == true) {
-				//audio.play();
-				waveAudio.audio.play();
-			}
-			wavesurfer.on('finish', function () {
-				wavesurfer.stop();
-			});
 		});
 
-		wavesurfer.loadBlob(e.data);
-
+		wavesurfer.load(value);
+		
+		
 		recordItem.querySelector(".control-audio").onclick = function () {
 			var waveOn = recordItem.querySelector(".wave-audio").audio;
 			waveOn.playPause();
 			recordItem.querySelector(".wave-audio").audio = waveOn;
 
 		};
-
-		var chunks = [];
-		chunks.push(e.data);
-		var blob = new Blob(chunks, { 'type' : 'audio/ogg; codecs=opus' });
-		//console.log(blob);
-		recordItem.querySelector(".download-link-item").href = window.URL.createObjectURL(blob);
+		
+		recordItem.querySelector(".download-item").style.display = "none";
 	}
-
-
-
+	
+	
 	var playFromList = function (event) {
 		if (event.keyCode == 88 && !(event.target.localName == "input" && event.target.type == "text") )  { // key "x"
 
@@ -109,11 +83,9 @@ define('list',['app-frame'], function(appFrame) {
 			waveAudio.audio.stop();
 		}
 	}
-
-
+	
 	return {
-		init: init,
-		createItem: createItem
+		init: init
 	};
 
 });
