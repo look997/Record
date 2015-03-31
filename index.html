@@ -5,9 +5,12 @@
 	<title>Record audio - Cvanus</title>
 
 
-
-	<link href="styles/general.css" rel="stylesheet"/>
-	<link href="styles/audio-rec-cvanus.css" rel="stylesheet"/>
+	<script data-main="scripts/main" src="scripts/libs/loadCSS.js"></script>
+		<script>
+		// load a file
+		loadCSS( "styles/general.css" );
+		loadCSS( "styles/audio-rec-cvanus.css" );
+		</script>
 	
 
 
@@ -27,10 +30,10 @@
 	<div class="audio-rec-cvanus app-container">
 		<div class="interface">
 			<div class="record">
-				<div class="rec" title='Press "z" key - Start/Stop Recording&#013;Press "x" key - Start/Pause plaing selected recording&#013;Press "c" key - Stop plaing selected recording' >Start Recording</div>
+				<div class="rec" title='Press "z" key - Start/Stop Recording&#013;Press "x" key - Start/Pause plaing selected recording&#013;Press "c" key - Stop plaing selected recording&#013;Press [Delete] key - Delete selected recording from list&#013;Press "v" key - Focus selected recording decsription input' >Start Recording</div>
 				<span class="draw-sound" title="Show recording sounds level"></span>
 				<input type="checkbox" class="autoplay-checkbox" title="Auto plaing recording after stop recording">
-				<input type="text" class="link-load" title="Load audio file">
+				<input type="text" class="link-load" title='Load audio files. Links separated spaces " "'>
 				<a class="load-file" >L</a>
 				<input type="text" title="Enter a description to recording" placeholder="Enter a description" class="description-to-recorded input-max">
 			</div>
@@ -50,11 +53,11 @@
 			<div class="control-audio" title="Play/Pause">P/P</div>
 			<div class="wave-audio"></div>
 			<span class="info"></span>
-			<div class="delete-item" title="Delete recording"></div>
-			<div class="download-item"  title='Download recording as ogg audio file'><a href="" download="recording.ogg" class="download-link-item">{^}</a></div>
-			<input type="checkbox" class="ok-checkbox" title="Mark as ok">
-			<input type="checkbox" class="bad-checkbox" title="Mark as bad">
-			<input type="text" title="Enter a description to recording" placeholder="Enter a description" class="description input-max">
+			<div class="delete-item aling-end" title="Delete recording"></div>
+			<div class="download-item aling-end"  title='Download recording as ogg audio file'><a href="" download="recording.ogg" class="download-link-item">{^}</a></div>
+			<input type="checkbox" class="ok-checkbox aling-end" title="Mark as ok">
+			<input type="checkbox" class="bad-checkbox aling-end" title="Mark as bad">
+			<input type="text" title="Enter a description to recording" placeholder="Enter a description" class="description input-max aling-end">
 		</div>
 		
 	</div>
@@ -63,7 +66,6 @@
 
 <span class="scripts">
 	
-	<script data-main="scripts/main" src="scripts/libs/wavesurfer.min.js"></script>
 	<script data-main="scripts/main" src="scripts/libs/require.js"></script>
 </span>
 </body>

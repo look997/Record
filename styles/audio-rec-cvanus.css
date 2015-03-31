@@ -80,3 +80,7 @@
 .record-item[data-selected-recirding="true"] {
 	border-left-color: green;
 }
+
+.aling-end {
+	align-self: flex-end;
+}

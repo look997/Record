@@ -1,16 +1,27 @@
-define('list',['app-frame'], function(appFrame) {
+define('list', ['app-frame', 'wave-surfer'], function(appFrame, WaveSurfer) {
 	
 	
 	var audioEmpty;
 	var audio = audioEmpty = document.createElement("audio");
 	var waveAudio = waveAudioEmpty = document.createElement("audio");
+	var listEl = appFrame.listEl;
 
 
 	var init = function () {
 		document.addEventListener("keydown", playFromList);
 		document.addEventListener("keydown", stopFromList);
+		document.addEventListener("keydown", deleteFromList);
+		document.addEventListener("keydown", arrowsUpDown);
+		document.addEventListener("keyup", selDescriptionInput);
 		
 		appFrame.loadFileEl.onclick = loadFile;
+		if (localStorage.getItem( "listLinks" )) {
+			var linksString = localStorage.getItem( "listLinks" );
+			var links = JSON.parse(linksString);
+			var linksString = links.toString();
+			appFrame.linkLoadEl.value = linksString.replace(",", " ");
+		}
+		
 	};
 	var createRazem = function() {
 		var wavesurfer = Object.create(WaveSurfer);
@@ -36,16 +47,10 @@ define('list',['app-frame'], function(appFrame) {
 
 		recordItem.querySelector(".description").value = recDescription;
 
-		var listEl = appFrame.listEl;
 		listEl.insertBefore(recordItem, listEl.firstElementChild);;
 
 		function deleteItem (event) {
-			event.target.parentElement.parentElement.parentElement.removeChild(event.target.parentElement.parentElement);
-			if (listEl.firstElementChild) {
-				audio = listEl.firstElementChild.querySelector(".pan-audio");
-			} else {
-				audio = audioEmpty;
-			}
+			deleteElFromList(event.target.parentElement.querySelector(".wave-audio"));
 
 		}
 		recordItem.querySelector(".delete-item").onclick = deleteItem;
@@ -113,7 +118,9 @@ define('list',['app-frame'], function(appFrame) {
 			} else {
 				audio.pause();
 			}*/
-			waveAudio.audio.playPause();
+			if (listEl.firstElementChild ) {
+				waveAudio.audio.playPause();
+			}
 
 		}
 	};
@@ -125,9 +132,66 @@ define('list',['app-frame'], function(appFrame) {
 				audio.currentTime = 0.0;
 			}
 			*/
-			waveAudio.audio.stop();
+			if (listEl.firstElementChild ) {
+				waveAudio.audio.stop();
+			}
 		}
 	};
+	
+	var deleteFromList = function (event) {
+		if (event.keyCode == 46 && !(event.target.localName == "input" && event.target.type == "text") ) { // key [Delete]
+			deleteElFromList(waveAudio);
+		}
+			
+	};
+	
+	var deleteElFromList = function (delWaveAudioEl) {
+		if (listEl.firstElementChild ) {
+			var toSelectedEl;
+			
+			if (delWaveAudioEl.parentElement.parentElement.previousElementSibling) {
+				toSelectedEl = delWaveAudioEl.parentElement.parentElement.previousElementSibling;
+			}
+			
+			delWaveAudioEl.parentElement.parentElement.parentElement.removeChild(delWaveAudioEl.parentElement.parentElement);
+
+			if (toSelectedEl) {
+				selFun(toSelectedEl);
+			} else if (listEl.firstElementChild) {
+				selFun(listEl.firstElementChild);
+			}
+		}
+	}
+	 
+	var arrowsUpDown = function (event) {
+		if (event.keyCode ==  38) { // key [up]
+			if (listEl.firstElementChild ) {
+				var selEl = waveAudio.parentElement.parentElement;
+				if(selEl.previousElementSibling) {
+					selFun(selEl.previousElementSibling);
+				}
+				selEl.querySelector(".description").blur();
+			}
+		}
+		if (event.keyCode ==  40 ) { // key [down]
+			if (listEl.firstElementChild ) {
+				var selEl = waveAudio.parentElement.parentElement;
+				if(selEl.nextElementSibling) {
+					selFun(selEl.nextElementSibling);
+				}
+				selEl.querySelector(".description").blur();
+			}
+		}
+	}
+	
+	var selDescriptionInput = function (event) {
+		if (event.keyCode ==  86) { // key "v"
+			if (listEl.firstElementChild ) {
+				var selEl = waveAudio.parentElement;
+				selEl.querySelector(".description").focus();
+			}
+		}
+	}
 	
 	var selFun = function (recordItem) {
 		var il = appFrame.el.querySelectorAll(".record-item");
@@ -136,30 +200,43 @@ define('list',['app-frame'], function(appFrame) {
 			il[i].setAttribute("data-selected-recirding", false);
 		}
 		recordItem.setAttribute("data-selected-recirding", true);
+		waveAudio = recordItem.querySelector(".wave-audio");
 		//recordItem.setAttribute(style.borderLeftColor = "green";
 	};
 	
 	
 	var loadFile = function () {
 		
-		var ra = createRazem();
 		
 		var value = appFrame.linkLoadEl.value;
+		
+		var links = value.split(" ");
+		for (prop in links) {
+			if (links.hasOwnProperty(prop)) {
+				
+				var ra = createRazem();
+				value = links[prop];
+				
+				ra.wavesurfer.init({
+					container: ra.recordItem.querySelector(".wave-audio"),
+					waveColor: 'violet',
+					progressColor: 'purple',
+					height: '88'
+				});
 
-		ra.wavesurfer.init({
-			container: ra.recordItem.querySelector(".wave-audio"),
-			waveColor: 'violet',
-			progressColor: 'purple',
-			height: '88'
-		});
+				ra.wavesurfer.load(value);
 
-		ra.wavesurfer.load(value);
+
+
+				ra.recordItem.querySelector(".download-link-item").href = value;
+				ra.recordItem.querySelector(".download-link-item").download = "";
+				//ra.recordItem.querySelector(".download-item").style.display = "none";
+			}
+		}
+		
+		localStorage.setItem( "listLinks", JSON.stringify(links) );
 		
 		
-		
-		ra.recordItem.querySelector(".download-link-item").href = value;
-		ra.recordItem.querySelector(".download-link-item").download = "";
-		//ra.recordItem.querySelector(".download-item").style.display = "none";
 	};
 
 
