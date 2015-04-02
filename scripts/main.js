@@ -1,6 +1,8 @@
-require.config({
+/*require.config({
     paths: {
+        'wave-surfer-regions': 'libs/wavesurfer.regions',
         'wave-surfer': 'libs/wavesurfer.min'
+		
     },
     shim: {
         'wave-surfer': {
@@ -8,7 +10,7 @@ require.config({
         }
     }
 });
-
+*/
 require(['record'], function (record) {
 	
 	record.init();

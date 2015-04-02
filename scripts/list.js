@@ -1,13 +1,23 @@
-define('list', ['app-frame', 'wave-surfer'], function(appFrame, WaveSurfer) {
+define('list', ['app-frame'/*, 'wave-surfer'*/], function(appFrame/*, WaveSurfer*/) {
 	
 	
 	var audioEmpty;
 	var audio = audioEmpty = document.createElement("audio");
 	var waveAudio = waveAudioEmpty = document.createElement("audio");
 	var listEl = appFrame.listEl;
-
+	var aIsPressing = false; // nie zapomnieć, że można mieć ciśnięty przycisk podczas ładowania skryptu
+	var dIsPressing = false;
+	var posSeek = 0;
 
 	var init = function () {
+		
+		document.addEventListener("keydown", clearRegions);
+		document.addEventListener("keydown", aDown);
+		document.addEventListener("keydown", sDown);
+		document.addEventListener("keyup", aDown);
+		document.addEventListener("keyup", sDown);
+		
+		document.addEventListener("keydown", playRegion);
 		document.addEventListener("keydown", playFromList);
 		document.addEventListener("keydown", stopFromList);
 		document.addEventListener("keydown", deleteFromList);
@@ -25,9 +35,8 @@ define('list', ['app-frame', 'wave-surfer'], function(appFrame, WaveSurfer) {
 	};
 	var createRazem = function() {
 		var wavesurfer = Object.create(WaveSurfer);
-
-
-
+		
+		
 		var t = document.querySelector("#t-record-item");
 		var trecordItem = document.importNode(t.content, true);
 
@@ -58,9 +67,8 @@ define('list', ['app-frame', 'wave-surfer'], function(appFrame, WaveSurfer) {
 		
 
 		recordItem.querySelector(".control-audio").onclick = function () {
-			var waveOn = recordItem.querySelector(".wave-audio").audio;
-			waveOn.playPause();
-
+			var waveOn = recordItem.querySelector(".wave-audio");
+			playPause(waveOn);
 		};
 		
 		recordItem.addEventListener("mousedown", function (event) { //switchAtThis
@@ -74,6 +82,7 @@ define('list', ['app-frame', 'wave-surfer'], function(appFrame, WaveSurfer) {
 		
 		wavesurfer.on('ready', function () {
 		//	wavesurfer.play();
+			wavesurfer.enableDragSelection();
 
 			if (appFrame.autoPlayCheckboxEl.checked == true) {
 				//audio.play();
@@ -81,6 +90,27 @@ define('list', ['app-frame', 'wave-surfer'], function(appFrame, WaveSurfer) {
 			}
 			wavesurfer.on('finish', function () {
 				wavesurfer.stop();
+			});
+			
+			wavesurfer.on('seek', function (pos) {
+				//console.log(pos);
+				posSeek = wavesurfer.getDuration()*pos;
+				//console.log(wavesurfer.getDuration());
+				//console.log(posSeek);
+				//posSeek = pos;
+				
+				/*var list = waveAudio.audio.regions.list;
+				if (Object.keys(list)[0]) {
+					var regionName = Object.keys(list)[0];
+					if (aIsPressing) {
+						list[regionName].update({start: pos});
+					} else if (dIsPressing) {
+						list[regionName].update({end: pos});
+					}
+					
+				}*/
+				
+				
 			});
 		});
 		
@@ -109,19 +139,72 @@ define('list', ['app-frame', 'wave-surfer'], function(appFrame, WaveSurfer) {
 	};
 
 
+	var clearRegions = function (event) {
+		if (event.keyCode == 70  && !(event.target.localName == "input" && event.target.type == "text") ) { // key "f"
+			var list = waveAudio.audio.regions.list;
+			if (Object.keys(list)[0]) {
+				waveAudio.audio.clearRegions();
+			}
+		}
+	};
+	
+	var playRegion = function (event) {
+		if (event.keyCode == 83 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "s"
+			var list = waveAudio.audio.regions.list;
+			if (Object.keys(list)[0]) {
+				var regionName = Object.keys(list)[0];
+				list[regionName].play();
+			}
+		}
+		
+	};
+	
+	var aDown = function (event) {
+		if (event.keyCode == 65 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "a"
+			var list = waveAudio.audio.regions.list;
+			if (Object.keys(list)[0]) {
+				var regionName = Object.keys(list)[0];
+				list[regionName].update({start: posSeek});
+			}
+			aIsPressing = true;
+		}
+	};
+	
+	var sDown = function (event) {
+		if (event.keyCode == 68 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "d"
+			var list = waveAudio.audio.regions.list;
+			if (Object.keys(list)[0]) {
+				var regionName = Object.keys(list)[0];
+				list[regionName].update({end: posSeek});
+			}
+			sIsPressing = true;
+		}
+	};
+	var aUp = function (event) {
+		if (event.keyCode == 65 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "a"
+			aIsPressing = false;
+		}
+	};
+	
+	var sUp = function (event) {
+		if (event.keyCode == 68 && !(event.target.localName == "input" && event.target.type == "text") ) { // key "d"
+			sIsPressing = false;
+		}
+	};
 
+	var playPause = function (waveAudioEl) {
+		console.log(waveAudioEl.audio);
+		if (listEl.firstElementChild ) {
+
+			var speedPlaingEl = waveAudioEl.parentElement.querySelector(".speed-plaing");
+			
+			waveAudioEl.audio.setPlaybackRate(  speedPlaingEl.value );
+			waveAudioEl.audio.playPause();
+		}
+	};
 	var playFromList = function (event) {
 		if (event.keyCode == 88 && !(event.target.localName == "input" && event.target.type == "text") )  { // key "x"
-
-			/*if ( audio.paused == true ) {
-				audio.play();
-			} else {
-				audio.pause();
-			}*/
-			if (listEl.firstElementChild ) {
-				waveAudio.audio.playPause();
-			}
-
+			playPause(waveAudio);
 		}
 	};
 	

@@ -55,7 +55,8 @@
 			<span class="info"></span>
 			<div class="delete-item aling-end" title="Delete recording"></div>
 			<div class="download-item aling-end"  title='Download recording as ogg audio file'><a href="" download="recording.ogg" class="download-link-item">{^}</a></div>
-			<input type="checkbox" class="ok-checkbox aling-end" title="Mark as ok">
+			<input type="text" style="width: 20px;" class="speed-plaing aling-end" value="1" title="Speed plaing">
+<input type="checkbox" class="ok-checkbox aling-end" title="Mark as ok">
 			<input type="checkbox" class="bad-checkbox aling-end" title="Mark as bad">
 			<input type="text" title="Enter a description to recording" placeholder="Enter a description" class="description input-max aling-end">
 		</div>
@@ -66,6 +67,8 @@
 
 <span class="scripts">
 	
+	<script data-main="scripts/main" src="scripts/libs/wavesurfer.min.js"></script>
+	<script data-main="scripts/main" src="scripts/libs/wavesurfer.regions.js"></script>
 	<script data-main="scripts/main" src="scripts/libs/require.js"></script>
 </span>
 </body>
