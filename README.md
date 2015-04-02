@@ -11,4 +11,4 @@ Using [MediaRecorder](https://developer.mozilla.org/en-US/docs/Web/API/MediaReco
 
 Better to use https. Without it, you must approve the "Allowing use the microphone," every time the "Start Recording".
 
-To load the URL requires CORS and restrictions of mixed content.
+To load the URL requires [CORS](https://github.com/warren-bank/moz-rewrite/tree/json/master) and restrictions of [mixed content](https://addons.mozilla.org/en-US/firefox/addon/toggle-mixed-active-content).
